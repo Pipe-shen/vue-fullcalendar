@@ -62,13 +62,20 @@
             <span class="close" @click.stop="showMore = false">x</span>
           </div>
           <div class="more-body">
-            <ul class="body-list">
-              <li v-for="event in selectDay.events"
+            <div class="body-list">
+              <!--<li v-for="event in selectDay.events"
                   v-show="event.isShow" class="body-item"
                   @click="eventClick(event, $event)">
                 {{event.title}}
-              </li>
-            </ul>
+              </li>-->
+              <event-card :event="event" :date="selectDay.date" :firstDay="firstDay"
+                          v-for="event in selectDay.events" v-show="event.cellIndex <= eventLimit"
+                          @click="eventClick">
+                <template scope="p">
+                  <slot name="fc-event-card" :event="p.event"></slot>
+                </template>
+              </event-card>
+            </div>
           </div>
         </div>
 
@@ -294,31 +301,6 @@
   }
   }
   }
-  .dates-events{
-    position:absolute;
-    top:0;
-    left:0;
-    z-index:1;
-    width: 100%;
-  .events-week{
-    display: flex;
-  .events-day{
-    cursor: pointer;
-    flex:1;
-    min-height: 112px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  .day-number{
-    text-align: right;
-    padding:4px 5px 4px 4px;
-    opacity: 0;
-  }
-  &.not-cur-month{
-  .day-number{
-    color:rgba(0,0,0,.24);
-  }
-  }
-  .event-box{
   .event-item{
     cursor: pointer;
     font-size:12px;
@@ -345,6 +327,31 @@
      opacity: 0;
    }
   }
+  .dates-events{
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:1;
+    width: 100%;
+  .events-week{
+    display: flex;
+  .events-day{
+    cursor: pointer;
+    flex:1;
+    min-height: 112px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  .day-number{
+    text-align: right;
+    padding:4px 5px 4px 4px;
+    opacity: 0;
+  }
+  &.not-cur-month{
+  .day-number{
+    color:rgba(0,0,0,.24);
+  }
+  }
+  .event-box{
   .more-link{
     cursor: pointer;
   // text-align: right;
